@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-family-sans: 'Nunito', sans-serif;
+  --font-family-brand: 'Great Vibes', cursive;
+
+  --color-bg: #FAF9F7;
+  --color-card: #FFFFFF;
+  --color-charcoal: #2C2C2C;
+  --color-nude: #C9B8A8;
+  --color-nude-light: #EDE6DF;
+  --color-nude-dark: #A8947F;
+  --color-border: #E8E5E2;
+  --color-muted: #9B9390;
+  --color-wa: #25D366;
+  --color-pending: #D4970A;
+  --color-confirmed: #2D7D52;
+  --color-completed: #6B7280;
+  --color-cancelled: #C0392B;
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: #FAF9F7;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: #2C2C2C;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-brand {
+  font-family: 'Great Vibes', cursive;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

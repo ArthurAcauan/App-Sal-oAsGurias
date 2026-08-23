@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react"
 import type { Screen, Service, Appointment, BookingFlow } from "./types"
 import { INITIAL_APPOINTMENTS } from "./data"
-import { calcBooking, calcDuration } from "./utils"
+import { calcBooking, calcDuration, isBefore24h } from "./utils"
 
 import SplashScreen from "./screens/SplashScreen"
 import HomeScreen from "./screens/HomeScreen"
@@ -82,8 +82,15 @@ export default function App() {
   }
 
   const handleCancelConfirm = () => {
-    if (selectedAppointmentId) updateStatus(selectedAppointmentId, "cancelled")
-  }
+  if (!selectedAppointmentId) return
+  const appt = appointments.find((a) => a.id === selectedAppointmentId)
+  const fee = appt && isBefore24h(appt.date, appt.time) ? 20 : 0
+  setAppointments((prev) =>
+    prev.map((a) =>
+      a.id === selectedAppointmentId ? { ...a, status: "cancelled", cancellationFee: fee } : a
+    )
+  )
+}
 
   const renderScreen = () => {
     switch (screen) {

@@ -60,6 +60,16 @@ export default function AppointmentDetailScreen({
               />
             )}
             <Row label="Total" value={formatCurrency(appointment.total)} valueClass="font-bold text-base text-charcoal" />
+            {appointment.status === "cancelled" && !!appointment.cancellationFee && (
+              <>
+                <div className="h-px bg-border" />
+                <Row
+                  label="Multa de cancelamento"
+                  value={formatCurrency(appointment.cancellationFee)}
+                  valueClass="text-[#C0392B] font-bold"
+                />
+              </>
+            )}
           </div>
         </div>
 

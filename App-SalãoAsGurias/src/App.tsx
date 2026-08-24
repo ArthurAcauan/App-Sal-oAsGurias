@@ -60,8 +60,7 @@ export default function App() {
     }
     setAppointments((prev) => [...prev, newAppt])
     setLastConfirmedId(newAppt.id)
-    setBooking({ selectedServices: [], selectedDate: null, selectedTime: null, clientName: "", clientPhone: "" })
-  }
+        setBooking((b) => ({ ...b, selectedServices: [], selectedDate: null, selectedTime: null }))
 
   const updateStatus = (id: string, status: Appointment["status"]) => {
     setAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)))
@@ -169,7 +168,7 @@ export default function App() {
             navigate={navigate}
             appointments={appointments}
             setSelectedAppointmentId={setSelectedAppointmentId}
-            clientName={booking.clientName}
+            clientPhone={booking.clientPhone}
           />
         )
 

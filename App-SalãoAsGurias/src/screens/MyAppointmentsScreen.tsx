@@ -9,12 +9,12 @@ interface Props {
   navigate: (screen: Screen) => void
   appointments: Appointment[]
   setSelectedAppointmentId: (id: string) => void
-  clientName: string
+  clientPhone: string
 }
 
-export default function MyAppointmentsScreen({ navigate, appointments, setSelectedAppointmentId, clientName }: Props) {
+export default function MyAppointmentsScreen({ navigate, appointments, setSelectedAppointmentId, clientPhone }: Props) {
   const today = new Date().toISOString().split("T")[0]
-  const myAppts = appointments.filter((a) => !clientName || a.clientName.toLowerCase().includes(clientName.toLowerCase().slice(0, 3)) || true)
+  const myAppts = appointments.filter((a) => a.clientPhone === clientPhone)
 
   const upcoming = myAppts
     .filter((a) => a.date >= today && a.status !== "cancelled" && a.status !== "completed")
@@ -39,7 +39,7 @@ export default function MyAppointmentsScreen({ navigate, appointments, setSelect
         {upcoming.length === 0 ? (
           <div className="flex flex-col items-center py-10 gap-3">
             <span className="text-4xl">📅</span>
-            <p className="text-muted text-sm text-center">Você ainda não possui agendamentos.</p>
+            <p className="text-muted text-sm text-center">Você ainda não possui agendamentos com este telefone.</p>
             <Button onClick={() => navigate("select-services")} variant="secondary" fullWidth={false} size="md">
               Agendar horário
             </Button>

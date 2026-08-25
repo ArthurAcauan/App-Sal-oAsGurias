@@ -40,6 +40,7 @@ export interface Appointment {
   total: number
   totalDuration: number
   createdAt: string
+  cancellationFee?: number
 }
 
 export interface BookingFlow {

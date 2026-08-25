@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react"
 import type { Screen, Service, Appointment, BookingFlow } from "./types"
 import { INITIAL_APPOINTMENTS } from "./data"
-import { calcBooking, calcDuration } from "./utils"
+import { calcBooking, calcDuration, isBefore24h } from "./utils"
 
 import SplashScreen from "./screens/SplashScreen"
 import HomeScreen from "./screens/HomeScreen"
@@ -60,8 +60,7 @@ export default function App() {
     }
     setAppointments((prev) => [...prev, newAppt])
     setLastConfirmedId(newAppt.id)
-    setBooking({ selectedServices: [], selectedDate: null, selectedTime: null, clientName: "", clientPhone: "" })
-  }
+        setBooking((b) => ({ ...b, selectedServices: [], selectedDate: null, selectedTime: null }))
 
   const updateStatus = (id: string, status: Appointment["status"]) => {
     setAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)))
@@ -82,8 +81,15 @@ export default function App() {
   }
 
   const handleCancelConfirm = () => {
-    if (selectedAppointmentId) updateStatus(selectedAppointmentId, "cancelled")
-  }
+  if (!selectedAppointmentId) return
+  const appt = appointments.find((a) => a.id === selectedAppointmentId)
+  const fee = appt && isBefore24h(appt.date, appt.time) ? 20 : 0
+  setAppointments((prev) =>
+    prev.map((a) =>
+      a.id === selectedAppointmentId ? { ...a, status: "cancelled", cancellationFee: fee } : a
+    )
+  )
+}
 
   const renderScreen = () => {
     switch (screen) {
@@ -162,7 +168,7 @@ export default function App() {
             navigate={navigate}
             appointments={appointments}
             setSelectedAppointmentId={setSelectedAppointmentId}
-            clientName={booking.clientName}
+            clientPhone={booking.clientPhone}
           />
         )
 
